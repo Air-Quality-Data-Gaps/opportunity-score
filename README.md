@@ -16,4 +16,4 @@ file will keep getting updated as the input data changes
 To run the code:
 1. R version 4.3.1
 2. Create a new directory with `input` and `output` folders
-3. Update the `dir` variable in `ad_data_gap.R` to the this directory 
+3. Update the `dir` variable in `aq_data_gap.R` to the this directory 

@@ -1,0 +1,199 @@
+Country / Dependency,Evidence of current government-operated/sponsored AQ monitoring,Evidence of ad hoc studies by government,"AQ monitoring existed in the past, but not currently","A: Physical Units: Data are shared in physical units, as opposed to a country- (or organization-) specific Air Quality Index, Air Pollution Index, or AQI-like quantities.",B: Station-Specific Coordinates: Data are provided at the most transparent geographic scale at which they are collected (station-scale) and with location metadata in the form of readily available geographic coordinates.,C: Timely Fine-Scale Temporal Information: Data are provided at daily or sub-daily levels in near real time of in a timely manner with time-of-collection stamps and averaging periods.,D: Programmatic Access:  Data and metadata as defined in the preceding criteria are publicly accessible in a programmatic or machine-readable format.,Continent
+Afghanistan,No,N/A,Yes,-,-,-,-,Asia
+Albania,Yes,N/A,N/A,-,-,-,-,Europe
+Algeria,Yes,N/A,N/A,-,-,-,-,Africa
+Andorra,Yes,N/A,N/A,Y,Y,Y,Y,Europe
+Angola,No,N/A,N/A,-,-,-,-,Africa
+Antigua and Barbuda,No,N/A,N/A,-,-,-,-,North America
+Argentina,Yes,N/A,N/A,N,Y,N,N,South America
+Armenia,Yes,N/A,N/A,Y,N,N,N,Europe
+Australia,Yes,N/A,N/A,Y,Y,Y,Y,Oceania
+Austria,Yes,N/A,N/A,Y,Y,Y,Y,Europe
+Azerbaijan,Yes,N/A,N/A,Y,N,N,N,Europe
+Bahamas,No,N/A,N/A,-,-,-,-,North America
+Bahrain,Yes,N/A,N/A,-,-,-,-,Asia
+Bangladesh,Yes,N/A,N/A,N,Y,Y,N,Asia
+Barbados,Yes,N/A,N/A,N,Y,N,N,North America
+Belarus,Yes,N/A,N/A,N,Y,N,N,Europe
+Belgium,Yes,N/A,N/A,Y,Y,Y,Y,Europe
+Belize,No,No,No,-,-,-,-,North America (Central)
+Benin,No,No,No,-,-,-,-,Africa
+Bhutan,No,N/A,N/A,-,-,-,-,Asia
+Bolivia,Yes,N/A,N/A,Y,N,N,N,South America
+Bosnia and Herzegovina,Yes,N/A,N/A,Y,Y,Y,Y,Europe
+Botswana,No,Yes,No,-,-,-,-,Africa
+Brazil,Yes,N/A,N/A,Y,N,Y,N,South America
+Brunei,Yes,N/A,N/A,N,N,Y,N,Asia
+Bulgaria,Yes,N/A,N/A,Y,Y,Y,Y,Europe
+Burkina Faso,No,Yes,No,-,-,-,-,Africa
+Burundi,No,No,No,-,-,-,-,Africa
+Cabo Verde,Yes,N/A,No,-,-,-,-,Africa
+Cambodia,Yes,N/A,N/A,N,N,Y,N,Asia
+Cameroon,No,No,No,-,-,-,-,Africa
+Canada,Yes,N/A,N/A,Y,Y,Y,Y,North America
+Central African Republic,No,No,No,-,-,-,-,Africa
+Chad,No,No,No,-,-,-,-,Africa
+Chile,Yes,N/A,N/A,Y,Y,Y,Y,South America
+China,Yes,N/A,N/A,Y,N,Y,N,Asia
+Colombia,Yes,N/A,N/A,Y,Y,Y,Y,South America
+Comoros,No,No,No,-,-,-,-,Africa
+Democratic Republic of the Congo,No,No,No,-,-,-,-,Africa
+Republic of the Congo,No,No,No,-,-,-,-,Africa
+Costa Rica,Yes,Yes,N/A,-,-,-,-,North America (Central)
+Côte d'Ivoire,No,N/A,N/A,-,-,-,-,Africa
+Croatia,Yes,N/A,N/A,Y,Y,Y,Y,Europe
+Cuba,Yes,N/A,N/A,Y,N,N,N,North America
+Cyprus,Yes,N/A,N/A,Y,Y,Y,Y,Europe
+Czechia,Yes,N/A,N/A,Y,Y,Y,Y,Europe
+Denmark,Yes,N/A,N/A,Y,Y,Y,Y,Europe
+Djibouti,No,No,No,-,-,-,-,Africa
+Dominica,No,No,No,-,-,-,-,North America
+Dominican Republic,Yes,N/A,N/A,-,-,-,-,North America
+Ecuador,Yes,N/A,N/A,N,Y,Y,N,South America
+Egypt,Yes,N/A,N/A,N,Y,Y,N,Africa
+El Salvador,Yes,N/A,N/A,Y,Y,Y,N,North America
+Equatorial Guinea,No,No,No,-,-,-,-,Africa
+Eritrea,No,No,No,-,-,-,-,Africa
+Estonia,Yes,N/A,N/A,Y,Y,Y,Y,Europe
+Swaziland,No,No,No,-,-,-,-,Africa
+Ethiopia,Yes,N/A,N/A,Y,Y,Y,Y,Africa
+Fiji,No,No,No,-,-,-,-,Oceania
+Finland,Yes,N/A,N/A,Y,Y,Y,Y,Europe
+France,Yes,N/A,N/A,Y,Y,Y,Y,Europe
+Gabon,No,No,No,-,-,-,-,Africa
+Gambia,No,No,No,-,-,-,-,Africa
+Georgia,Yes,N/A,N/A,Y,Y,Y,Y,Europe
+Germany,Yes,N/A,N/A,Y,Y,Y,Y,Europe
+Ghana,Yes,N/A,N/A,-,-,-,-,Africa
+Greece,Yes,N/A,N/A,Y,Y,Y,Y,Europe
+Grenada,No,No,No,-,-,-,-,North America
+Guatemala,Yes,N/A,N/A,-,-,-,-,North America (Central)
+Guinea,No,No,No,-,-,-,-,Africa
+Guinea-Bissau,No,No,No,-,-,-,-,Africa
+Guyana,Yes,N/A,N/A,Y,Y,Y,N,South America
+Haiti,No,N/A,N/A,-,-,-,-,North America
+Honduras,No,N/A,N/A,-,-,-,-,North America (Central)
+Hong Kong,Yes,N/A,N/A,Y,N,Y,Y,Asia
+Hungary,Yes,N/A,N/A,Y,Y,Y,Y,Europe
+Iceland,Yes,N/A,N/A,Y,Y,Y,Y,Europe
+India,Yes,N/A,N/A,Y,Y,Y,N,Asia
+Indonesia,Yes,N/A,N/A,Y,N,Y,N,Asia
+Iran,Yes,N/A,N/A,N,N,Y,N,Asia
+Iraq,Yes,N/A,N/A,Y,N,N,N,Asia
+Ireland,Yes,N/A,N/A,Y,Y,Y,Y,Europe
+Israel,Yes,N/A,N/A,Y,Y,Y,N,Asia
+Italy,Yes,N/A,N/A,Y,Y,N,N,Europe
+Jamaica,Yes,N/A,N/A,Y,N,N,N,North America
+Japan,Yes,N/A,N/A,Y,N,Y,N,Asia
+Jordan,Yes,N/A,N/A,N,N,Y,N,Asia
+Kazakhstan,Yes,N/A,N/A,Y,Y,Y,N,Europe
+Kenya,Yes,N/A,N/A,Y,Y,Y,N,Africa
+Kiribati,No,No,No,-,-,-,-,Oceania
+Kosovo,Yes,N/A,N/A,Y,Y,Y,N,Europe
+Kuwait,Yes,N/A,N/A,Y,Y,Y,N,Asia
+Kyrgyzstan,Yes,N/A,N/A,-,-,-,-,Asia
+Laos,No,Yes,No,-,-,-,-,Asia
+Latvia,Yes,N/A,N/A,Y,Y,Y,Y,Europe
+Lebanon,No,N/A,Yes,-,-,-,-,Asia
+Lesotho,No,No,No,-,-,-,-,Africa
+Liberia,No,No,No,-,-,-,-,Africa
+Libya,No,No,No,-,-,-,-,Africa
+Liechtenstein,Yes,N/A,N/A,Y,Y,N,N,Europe
+Lithuania,Yes,N/A,N/A,Y,Y,Y,Y,Europe
+Luxembourg,Yes,N/A,N/A,Y,Y,Y,Y,Europe
+"Macedonia, North",Yes,N/A,N/A,Y,Y,Y,Y,Europe
+Madagascar,Yes,N/A,N/A,Y,Y,Y,Y,Africa
+Malawi,No,Yes,No,-,-,-,-,Africa
+Malaysia,Yes,N/A,N/A,N,Y,Y,N,Asia
+Maldives,Yes,N/A,N/A,Y,Y,Y,N,Asia
+Mali,No,No,No,-,-,-,-,Africa
+Malta,Yes,N/A,N/A,Y,Y,Y,Y,Europe
+Marshall Islands,No,No,No,-,-,-,-,Oceania
+Mauritania,No,No,No,-,-,-,-,Africa
+Mauritius,Yes,N/A,N/A,Y,N,N,N,Africa
+México,Yes,N/A,N/A,Y,Y,Y,Y,North America
+Micronesia,No,No,No,-,-,-,-,Oceania
+Moldova,Yes,N/A,N/A,-,-,-,-,Europe
+Monaco,Yes,N/A,N/A,N,N,Y,N,Europe
+Mongolia,Yes,N/A,N/A,Y,N,Y,N,Asia
+Montenegro,Yes,N/A,N/A,Y,Y,Y,N,Europe
+Morocco,Yes,N/A,N/A,-,-,-,-,Africa
+Mozambique,No,No,No,-,-,-,-,Africa
+Myanmar,Yes,N/A,N/A,-,-,-,-,Asia
+Namibia,No,No,No,-,-,-,-,Africa
+Nauru,No,No,No,-,-,-,-,Oceania
+Nepal,Yes,N/A,N/A,Y,Y,Y,N,Asia
+Netherlands,Yes,N/A,N/A,Y,N,Y,Y,Europe
+New Zealand,Yes,N/A,N/A,Y,Y,Y,Y,Oceania
+Nicaragua,No,No,No,-,-,-,-,North America (Central)
+Niger,No,No,No,-,-,-,-,Africa
+Nigeria,Yes,N/A,N/A,Y,Y,Y,N,Africa
+North Korea,No,No,No,-,-,-,-,Asia
+Norway,Yes,N/A,N/A,Y,Y,Y,Y,Europe
+Oman,Yes,N/A,N/A,Y,N,Y,N,Asia
+Pakistan,Yes,N/A,N/A,Y,N,Y,N,Asia
+Palau,No,No,No,-,-,-,-,Oceania
+Palestine,No,No,No,,,,,Asia
+Panama,No,No,No,-,-,-,-,North America (Central)
+Papua New Guinea,No,No,No,-,-,-,-,Oceania
+Paraguay,Yes,N/A,N/A,-,-,-,-,South America
+Peru,Yes,N/A,N/A,Y,Y,Y,N,South America
+Philippines,Yes,N/A,N/A,Y,Y,Y,N,Asia
+Poland,Yes,N/A,N/A,Y,Y,Y,Y,Europe
+Portugal,Yes,N/A,N/A,Y,Y,Y,Y,Europe
+Puerto Rico,Yes,N/A,N/A,Y,Y,Y,Y,North America
+Qatar,Yes,N/A,N/A,-,-,-,-,Asia
+Romania,Yes,N/A,N/A,Y,Y,Y,Y,Europe
+Russia,Yes,N/A,N/A,Y,Y,Y,N,Europe
+Rwanda,Yes,N/A,N/A,N,Y,Y,N,Africa
+Samoa,No,No,No,-,-,-,-,Oceania
+San Marino,No,No,No,-,-,-,-,Europe
+São Tomé and Príncipe,No,No,No,-,-,-,-,Africa
+Saudi Arabia,Yes,N/A,N/A,N,Y,Y,N,Asia
+Senegal,Yes,N/A,N/A,N,N,Y,N,Africa
+Serbia,Yes,N/A,N/A,Y,Y,Y,Y,Europe
+Seychelles,No,No,No,-,-,-,-,Africa
+Sierra Leone,No,No,No,-,-,-,-,Africa
+Singapore,Yes,N/A,N/A,Y,N,Y,N,Asia
+Slovakia,Yes,N/A,N/A,Y,Y,Y,Y,Europe
+Slovenia,Yes,N/A,N/A,Y,Y,Y,Y,Europe
+Solomon Islands,No,No,No,-,-,-,-,Oceania
+Somalia,No,No,No,-,-,-,-,Africa
+South Africa,Yes,N/A,N/A,Y,Y,Y,N,Africa
+South Korea,Yes,N/A,N/A,Y,Y,Y,Y,Asia
+South Sudan,No,No,No,-,-,-,-,Africa
+Spain,Yes,N/A,N/A,Y,Y,Y,Y,Europe
+Sri Lanka,Yes,N/A,N/A,Y,N,Y,N,Asia
+Saint Kitts and Nevis,No,No,No,-,-,-,-,North America
+Saint Lucia,No,No,No,-,-,-,-,North America
+Saint Vincent and the Grenadines,No,No,No,-,-,-,-,North America
+Sudan,No,No,No,-,-,-,-,Africa
+Suriname,No,No,No,-,-,-,-,South America
+Sweden,Yes,N/A,N/A,Y,Y,Y,Y,Europe
+Switzerland,Yes,N/A,N/A,Y,Y,Y,Y,Europe
+Syria,No,No,Yes,-,-,-,-,Asia
+Taiwan,Yes,N/A,N/A,Y,Y,Y,Y,Asia
+Tajikistan,Yes,N/A,N/A,-,-,-,-,Asia
+Tanzania,No,Yes,No,-,-,-,-,Africa
+Thailand,Yes,N/A,N/A,Y,Y,Y,N,Asia
+Timor-Leste,No,No,No,-,-,-,-,Asia
+Togo,No,No,No,-,-,-,-,Africa
+Tonga,No,No,No,-,-,-,-,Oceania
+Trinidad and Tobago,Yes,N/A,N/A,Y,N,Y,N,North America
+Tunisia,Yes,N/A,N/A,-,-,-,-,Africa
+Turkey,Yes,N/A,N/A,Y,Y,Y,N,Europe
+Turkmenistan,No,No,No,-,-,-,-,Asia
+Tuvalu,No,No,No,-,-,-,-,Oceania
+Uganda,Yes,Yes,Yes,Y,N,Y,N,Africa
+Ukraine,Yes,N/A,N/A,Y,Y,Y,N,Europe
+United Arab Emirates,Yes,N/A,N/A,Y,Y,Y,N,Asia
+United Kingdom,Yes,N/A,N/A,Y,Y,Y,Y,Europe
+United States,Yes,N/A,N/A,Y,Y,Y,Y,North America
+Uruguay,Yes,N/A,N/A,-,-,-,-,South America
+Uzbekistan,Yes,N/A,N/A,Y,Y,Y,N,Asia
+Vanuatu,No,No,No,-,-,-,-,Oceania
+Venezuela,No,N/A,N/A,-,-,-,-,South America
+Vietnam,Yes,N/A,N/A,N,Y,Y,N,Asia
+Yemen,No,No,No,-,-,-,-,Asia
+Zambia,No,No,No,-,-,-,-,Africa
+Zimbabwe,No,N/A,N/A,-,-,-,-,Africa

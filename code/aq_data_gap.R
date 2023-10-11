@@ -78,9 +78,18 @@ gbd <- read_csv(glue("{dir}/input/gbd_results_master.csv")) %>%
          country = ifelse(country == "Republic of Korea", "South Korea", country),
          country = ifelse(country == "Syrian Arab Republic", "Syria", country))
 
-# load registry responses. Yet to standardizing all names to AQLI data
-registry <- read_sheet("https://docs.google.com/spreadsheets/d/1xYPlBxaoo5bdzoHr9GNm9I0R-Zc8HVZUv8Err_LJrw8/edit?skip_itp2_check=true#gid=1712302773") %>%
-  select(`What country are you/your entity based in?`)
+# load registry responses. Had to manually generate a list of unique countries mentioned AQDG registry responses
+registry_countries <- read_excel(glue("{dir}/input/unique_registry_responses.xlsx")) %>%
+  mutate(registry = 1)
+
+# excluding countries that are sanctioned by the US or are in the FATF black list
+#' sources: 
+#' https://ofac.treasury.gov/sanctions-programs-and-country-information, 
+#' https://en.wikipedia.org/wiki/United_States_sanctions
+#' https://www.state.gov/state-sponsors-of-terrorism/
+#' https://www.fatf-gafi.org/en/countries/black-and-grey-lists.html 
+
+sanctioned_countries <- c("Cuba", "Iran", "Myanmar", "North Korea", "Russia", "Syria", "Venezuela")
 
 # merge data 
 aq_data <- aqli %>% 
@@ -89,31 +98,34 @@ aq_data <- aqli %>%
   full_join(aq_monitors_by_sensor, by = c("country" = "name")) %>%
   full_join(fund, by = c("country" = "Country")) %>%
   full_join(gbd, by = c("country" = "country")) %>%
-  filter(!is.na(population))
+  full_join(registry_countries, by = c("country" = "Country")) %>%
+  filter(!is.na(population)) %>%
+  filter(population > 500000) %>%
+  filter(country %notin% sanctioned_countries) %>%
+  filter(pm2021 > 5)
 
 aq_data <- aq_data %>%
-  replace_na(list(tot_monitor = 0)) %>%
-  mutate(pm_qtile = ntile(pm2021, 5),
-         pop_qtile = ntile(population, 5),
+  mutate(pop_sq = population^2,
+         pm_sq = pm2021^2,
          aq_monitoring = ifelse(`Evidence of current government-operated/sponsored AQ monitoring` == "Yes", "Y", "N"),
          open_data = ifelse(`A: Physical Units: Data are shared in physical units, as opposed to a country- (or organization-) specific Air Quality Index, Air Pollution Index, or AQI-like quantities.` == "Y" &
                               `B: Station-Specific Coordinates: Data are provided at the most transparent geographic scale at which they are collected (station-scale) and with location metadata in the form of readily available geographic coordinates.` == "Y" &
                               `C: Timely Fine-Scale Temporal Information: Data are provided at daily or sub-daily levels in near real time of in a timely manner with time-of-collection stamps and averaging periods.` == "Y" &
                               `D: Programmatic Access:  Data and metadata as defined in the preceding criteria are publicly accessible in a programmatic or machine-readable format.` == "Y", "Y", "N"),
          aq_standard = ifelse(`National Annual Average PM2.5 Standard (in µg/m³)` == "No national standard", "N", "Y"),
-         monitor_density = tot_monitor/population) 
+         monitor_density = tot_monitor/population,
+         pm_qtile = ntile(pm_sq, 5),
+         pop_qtile = ntile(pop_sq, 5),
+         monitor_dens_qtile = ntile(monitor_density, 5))
 
 # assign score- greater opportunity get a score of 1
 opportunity_score <- aq_data %>% arrange(desc(pm2021)) %>%
-  select(iso_alpha3, country, population, pm2021, aq_monitoring, open_data, aq_standard, tot_monitor, govt, other, monitor_density, gbd_dummy, `Funding in USD million`, pm_qtile, pop_qtile) %>%
-  replace_na(list(aq_monitoring = "N", open_data = "N", govt = 0, other = 0, monitor_density = 0, gbd_dummy = 0, `Funding in USD million` = 0)) %>%
+  select(iso_alpha3, country, population, pm2021, pop_sq, pm_sq , aq_monitoring, 
+         open_data, aq_standard, tot_monitor, govt, other, monitor_density, 
+         gbd_dummy, registry, `Funding in USD million`, pm_qtile, pop_qtile, monitor_dens_qtile) %>%
   mutate(aq_mon_dummy = ifelse(aq_monitoring == "N", 1, 0),
          open_data_dummy = ifelse(open_data == "N", 1, 0), 
          aq_std_dummy = ifelse(aq_standard == "N", 1, 0),
-         # pm_dummy = ifelse(pm2021 > median(pm2021, na.rm = TRUE), 1, 0),
-         # pop_dummy = ifelse(population > median(population, na.rm = TRUE), 1, 0),
-         num_loc_dummy = ifelse(tot_monitor > median(tot_monitor, na.rm = TRUE), 0, 1),
-         mon_dens_dummy = ifelse(monitor_density > median(monitor_density, na.rm = TRUE), 0, 1),
          govt_dummy = ifelse(govt > median(govt, na.rm = TRUE), 0, 1),
          other_dummy = ifelse(other > median(other, na.rm = TRUE), 0, 1),
          funding_dummy = ifelse(`Funding in USD million` > 0.1, 0, 1),
@@ -126,10 +138,17 @@ opportunity_score <- aq_data %>% arrange(desc(pm2021)) %>%
                                   pop_qtile == 2 ~ 0.4,
                                   pop_qtile == 3 ~ 0.6,
                                   pop_qtile == 4 ~ 0.8,
-                                  pop_qtile == 5 ~ 1)) %>%
+                                  pop_qtile == 5 ~ 1),
+         mon_dens_quintile = case_when(monitor_dens_qtile == 1 ~ 0.2,
+                                       monitor_dens_qtile == 2 ~ 0.4,
+                                       monitor_dens_qtile == 3 ~ 0.6,
+                                       monitor_dens_qtile == 4 ~ 0.8,
+                                       monitor_dens_qtile == 5 ~ 1)) %>%
+  replace_na(list(aq_mon_dummy = 1, open_data_dummy = 1, govt_dummy = 1, other_dummy = 1, 
+                  mon_dens_quintile = 1, gbd_dummy = 0, funding_dummy = 1, registry = 0)) %>%
   rowwise() %>%
-  mutate(opportunity_score = sum(aq_mon_dummy, open_data_dummy, aq_std_dummy, pm_quintile, pop_quintile, num_loc_dummy, mon_dens_dummy, govt_dummy, other_dummy, gbd_dummy, funding_dummy)) %>%
+  mutate(opportunity_score = sum(aq_mon_dummy, open_data_dummy, aq_std_dummy, pm_quintile, 
+                                 pop_quintile, mon_dens_quintile, govt_dummy, other_dummy, 
+                                 gbd_dummy, funding_dummy, registry)) %>%
   arrange(desc(opportunity_score)) %>%
   write_csv(glue("{dir}/output/opportunity_score_v4.csv"))
-
-# next steps- add registry data as a measure of tractability

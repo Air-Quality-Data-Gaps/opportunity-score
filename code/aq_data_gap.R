@@ -118,11 +118,12 @@ aq_data <- aq_data %>%
          pop_qtile = ntile(pop_sq, 5),
          monitor_dens_qtile = ntile(monitor_density, 5))
 
-# assign score- greater opportunity get a score of 1
+# assign score- greater opportunity gets a score of 1
 opportunity_score <- aq_data %>% arrange(desc(pm2021)) %>%
   select(iso_alpha3, country, population, pm2021, pop_sq, pm_sq , aq_monitoring, 
          open_data, aq_standard, tot_monitor, govt, other, monitor_density, 
-         gbd_dummy, registry, `Funding in USD million`, pm_qtile, pop_qtile, monitor_dens_qtile) %>%
+         `Funding in USD million`, pm_qtile, pop_qtile, monitor_dens_qtile,
+         gbd_dummy, registry) %>%
   mutate(aq_mon_dummy = ifelse(aq_monitoring == "N", 1, 0),
          open_data_dummy = ifelse(open_data == "N", 1, 0), 
          aq_std_dummy = ifelse(aq_standard == "N", 1, 0),
@@ -144,11 +145,15 @@ opportunity_score <- aq_data %>% arrange(desc(pm2021)) %>%
                                        monitor_dens_qtile == 3 ~ 0.6,
                                        monitor_dens_qtile == 4 ~ 0.8,
                                        monitor_dens_qtile == 5 ~ 1)) %>%
-  replace_na(list(aq_mon_dummy = 1, open_data_dummy = 1, govt_dummy = 1, other_dummy = 1, 
-                  mon_dens_quintile = 1, gbd_dummy = 0, funding_dummy = 1, registry = 0)) %>%
+  replace_na(list(open_data_dummy = 1, govt_dummy = 1, other_dummy = 1, 
+                  funding_dummy = 1, mon_dens_quintile = 1, 
+                  gbd_dummy = 0, registry = 0)) %>%
   rowwise() %>%
-  mutate(opportunity_score = sum(aq_mon_dummy, open_data_dummy, aq_std_dummy, pm_quintile, 
-                                 pop_quintile, mon_dens_quintile, govt_dummy, other_dummy, 
-                                 gbd_dummy, funding_dummy, registry)) %>%
-  arrange(desc(opportunity_score)) %>%
-  write_csv(glue("{dir}/output/opportunity_score_v4.csv"))
+  mutate(opportunity_score = sum(aq_mon_dummy, open_data_dummy, aq_std_dummy, 
+                                 pm_quintile, pop_quintile, mon_dens_quintile, 
+                                 govt_dummy, other_dummy, gbd_dummy, 
+                                 funding_dummy, registry)) %>%
+  arrange(desc(opportunity_score))
+
+# using write.csv to avoid floating point issues
+write.csv(opportunity_score, glue("{dir}/output/opportunity_score_v4.csv"))

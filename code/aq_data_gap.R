@@ -100,7 +100,7 @@ aq_data <- aqli %>%
   full_join(gbd, by = c("country" = "country")) %>%
   full_join(registry_countries, by = c("country" = "Country")) %>%
   filter(!is.na(population)) %>%
-  filter(population > 500000) %>%
+  filter(population > 800000) %>%
   filter(country %notin% sanctioned_countries) %>%
   filter(pm2021 > 5)
 
@@ -152,8 +152,12 @@ opportunity_score <- aq_data %>% arrange(desc(pm2021)) %>%
   mutate(opportunity_score = sum(aq_mon_dummy, open_data_dummy, aq_std_dummy, 
                                  pm_quintile, pop_quintile, mon_dens_quintile, 
                                  govt_dummy, other_dummy, gbd_dummy, 
-                                 funding_dummy, registry)) %>%
+                                 funding_dummy, registry),
+         buckets = case_when(opportunity_score >= 7.2 ~ "High",
+                             opportunity_score < 7.2 & opportunity_score >= 5.8 ~ "Medium",
+                             opportunity_score < 5.8 & opportunity_score >= 4.2 ~ "Low",
+                             opportunity_score < 4.2 ~ "Lowest")) %>%
   arrange(desc(opportunity_score))
 
 # using write.csv to avoid floating point issues
-write.csv(opportunity_score, glue("{dir}/output/opportunity_score_v4.csv"))
+write.csv(opportunity_score, glue("{dir}/output/opportunity_score_v4.csv"), row.names=FALSE )

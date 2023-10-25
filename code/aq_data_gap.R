@@ -1,3 +1,4 @@
+# load libraries
 library(tidyverse)
 library(glue)
 library(readxl)
@@ -8,6 +9,9 @@ dir <- ("~/Desktop/AQLI/REPO/opportunity-score/data")
 
 # global operations
 `%notin%` <- Negate(`%in%`)
+
+# authorise googglesheets4 to read sheets files
+gs4_auth()
 
 # load data
 # aqli data
@@ -82,6 +86,11 @@ gbd <- read_csv(glue("{dir}/input/gbd_results_master.csv")) %>%
 registry_countries <- read_excel(glue("{dir}/input/unique_registry_responses.xlsx")) %>%
   mutate(registry = 1)
 
+# World Bank high income country classification
+high_income <- read.csv(glue("{dir}/input/WB_income_classification.csv")) %>%
+  select(Country, Income.classification) %>%
+  filter(Income.classification == "High Income")
+
 # excluding countries that are sanctioned by the US or are in the FATF black list
 #' sources: 
 #' https://ofac.treasury.gov/sanctions-programs-and-country-information, 
@@ -89,7 +98,8 @@ registry_countries <- read_excel(glue("{dir}/input/unique_registry_responses.xls
 #' https://www.state.gov/state-sponsors-of-terrorism/
 #' https://www.fatf-gafi.org/en/countries/black-and-grey-lists.html 
 
-sanctioned_countries <- c("Cuba", "Iran", "Myanmar", "North Korea", "Russia", "Syria", "Venezuela")
+sanctioned_countries <- c("Cuba", "Iran", "Myanmar", "North Korea", "Russia", 
+                          "Syria", "Venezuela", "Israel", "Palestine")
 
 # merge data 
 aq_data <- aqli %>% 
@@ -99,47 +109,48 @@ aq_data <- aqli %>%
   full_join(fund, by = c("country" = "Country")) %>%
   full_join(gbd, by = c("country" = "country")) %>%
   full_join(registry_countries, by = c("country" = "Country")) %>%
+  full_join(high_income, by = c("country" = "Country")) %>%
   filter(!is.na(population)) %>%
   filter(population > 800000) %>%
   filter(country %notin% sanctioned_countries) %>%
   filter(pm2021 > 5)
 
 aq_data <- aq_data %>%
-  mutate(pop_sq = population^2,
-         pm_sq = pm2021^2,
-         aq_monitoring = ifelse(`Evidence of current government-operated/sponsored AQ monitoring` == "Yes", "Y", "N"),
+  mutate(aq_monitoring = ifelse(`Evidence of current government-operated/sponsored AQ monitoring` == "Yes", "Y", "N"),
          open_data = ifelse(`A: Physical Units: Data are shared in physical units, as opposed to a country- (or organization-) specific Air Quality Index, Air Pollution Index, or AQI-like quantities.` == "Y" &
                               `B: Station-Specific Coordinates: Data are provided at the most transparent geographic scale at which they are collected (station-scale) and with location metadata in the form of readily available geographic coordinates.` == "Y" &
                               `C: Timely Fine-Scale Temporal Information: Data are provided at daily or sub-daily levels in near real time of in a timely manner with time-of-collection stamps and averaging periods.` == "Y" &
                               `D: Programmatic Access:  Data and metadata as defined in the preceding criteria are publicly accessible in a programmatic or machine-readable format.` == "Y", "Y", "N"),
          aq_standard = ifelse(`National Annual Average PM2.5 Standard (in µg/m³)` == "No national standard", "N", "Y"),
-         monitor_density = tot_monitor/population,
-         pm_qtile = ntile(pm_sq, 5),
-         pop_qtile = ntile(pop_sq, 5),
+         pop_in_million = population/1000000,
+         monitor_density = tot_monitor/pop_in_million,
+         pm_qtile = ntile(pm2021, 5),
+         pop_qtile = ntile(population, 5),
          monitor_dens_qtile = ntile(monitor_density, 5))
 
 # assign score- greater opportunity gets a score of 1
 opportunity_score <- aq_data %>% arrange(desc(pm2021)) %>%
-  select(iso_alpha3, country, population, pm2021, pop_sq, pm_sq , aq_monitoring, 
+  select(iso_alpha3, country, population, pm2021, aq_monitoring, 
          open_data, aq_standard, tot_monitor, govt, other, monitor_density, 
          `Funding in USD million`, pm_qtile, pop_qtile, monitor_dens_qtile,
-         gbd_dummy, registry) %>%
+         gbd_dummy, registry, Income.classification) %>%
   mutate(aq_mon_dummy = ifelse(aq_monitoring == "N", 1, 0),
          open_data_dummy = ifelse(open_data == "N", 1, 0), 
          aq_std_dummy = ifelse(aq_standard == "N", 1, 0),
+         num_loc_dummy = ifelse(tot_monitor > median(tot_monitor, na.rm = TRUE), 0, 2), # 2x weighting of total number of monitors 
          govt_dummy = ifelse(govt > median(govt, na.rm = TRUE), 0, 1),
          other_dummy = ifelse(other > median(other, na.rm = TRUE), 0, 1),
-         funding_dummy = ifelse(`Funding in USD million` > 0.1, 0, 1),
-         pm_quintile = case_when(pm_qtile == 1 ~ 0.2,
-                                 pm_qtile == 2 ~ 0.4,
-                                 pm_qtile == 3 ~ 0.6,
-                                 pm_qtile == 4 ~ 0.8,
-                                 pm_qtile == 5 ~ 1),
-         pop_quintile = case_when(pop_qtile == 1 ~ 0.2,
-                                  pop_qtile == 2 ~ 0.4,
-                                  pop_qtile == 3 ~ 0.6,
-                                  pop_qtile == 4 ~ 0.8,
-                                  pop_qtile == 5 ~ 1),
+         funding_dummy = ifelse(`Funding in USD million` > 0.1 | Income.classification == "High Income", 0, 1),
+         pm_quintile = case_when(pm_qtile == 1 ~ 0.4, # 2x weighting of pm quintile
+                                 pm_qtile == 2 ~ 0.8,
+                                 pm_qtile == 3 ~ 1.2,
+                                 pm_qtile == 4 ~ 1.6,
+                                 pm_qtile == 5 ~ 2),
+         pop_quintile = case_when(pop_qtile == 1 ~ 0.4, # 2x weighting of population quintile
+                                  pop_qtile == 2 ~ 0.8,
+                                  pop_qtile == 3 ~ 1.2,
+                                  pop_qtile == 4 ~ 1.6,
+                                  pop_qtile == 5 ~ 2),
          mon_dens_quintile = case_when(monitor_dens_qtile == 1 ~ 0.2,
                                        monitor_dens_qtile == 2 ~ 0.4,
                                        monitor_dens_qtile == 3 ~ 0.6,
@@ -147,17 +158,17 @@ opportunity_score <- aq_data %>% arrange(desc(pm2021)) %>%
                                        monitor_dens_qtile == 5 ~ 1)) %>%
   replace_na(list(open_data_dummy = 1, govt_dummy = 1, other_dummy = 1, 
                   funding_dummy = 1, mon_dens_quintile = 1, 
-                  gbd_dummy = 0, registry = 0)) %>%
+                  gbd_dummy = 0, registry = 0, num_loc_dummy = 2)) %>%
   rowwise() %>%
   mutate(opportunity_score = sum(aq_mon_dummy, open_data_dummy, aq_std_dummy, 
                                  pm_quintile, pop_quintile, mon_dens_quintile, 
                                  govt_dummy, other_dummy, gbd_dummy, 
-                                 funding_dummy, registry),
-         buckets = case_when(opportunity_score >= 7.2 ~ "High",
-                             opportunity_score < 7.2 & opportunity_score >= 5.8 ~ "Medium",
-                             opportunity_score < 5.8 & opportunity_score >= 4.2 ~ "Low",
-                             opportunity_score < 4.2 ~ "Lowest")) %>%
-  arrange(desc(opportunity_score))
+                                 funding_dummy, registry, num_loc_dummy),
+         bands = case_when(opportunity_score >= 9.8 ~ "High",
+                           opportunity_score < 9.8 & opportunity_score >= 8.2 ~ "Medium",
+                           opportunity_score < 8.2 & opportunity_score >= 5.8 ~ "Low",
+                           opportunity_score < 5.8 ~ "Lowest")) %>%
+  arrange(desc(opportunity_score), population)
 
 # using write.csv to avoid floating point issues
-write.csv(opportunity_score, glue("{dir}/output/opportunity_score_v4.csv"), row.names=FALSE )
+write.csv(opportunity_score, glue("{dir}/output/opportunity_score.csv"), row.names=FALSE)

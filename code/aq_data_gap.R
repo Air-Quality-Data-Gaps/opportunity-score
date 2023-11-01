@@ -165,9 +165,9 @@ opportunity_score <- aq_data %>% arrange(desc(pm2021)) %>%
                                  govt_dummy, other_dummy, gbd_dummy, 
                                  funding_dummy, registry, num_loc_dummy),
          bands = case_when(opportunity_score >= 9.8 ~ "High",
-                           opportunity_score < 9.8 & opportunity_score >= 8.2 ~ "Medium",
-                           opportunity_score < 8.2 & opportunity_score >= 5.8 ~ "Low",
-                           opportunity_score < 5.8 ~ "Lowest")) %>%
+                           opportunity_score < 9.8 & opportunity_score >= 8.2 ~ "Medium-high",
+                           opportunity_score < 8.2 & opportunity_score >= 5.8 ~ "Medium",
+                           opportunity_score < 5.8 ~ "Low")) %>%
   arrange(desc(opportunity_score), population)
 
 # using write.csv to avoid floating point issues

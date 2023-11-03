@@ -21,7 +21,8 @@ table_data <- opp_score %>%
 # Table1
 continent_table <- table_data %>% 
   filter(bands == "High") %>%
-  mutate(continent = ifelse(continent == "North America", "Latin America", continent),
+  mutate(continent = ifelse(continent == "Oceania", "Asia", continent),
+         continent = ifelse(continent == "North America", "Latin America", continent),
          continent = ifelse(continent == "South America", "Latin America", continent)) %>%
   group_by(continent) %>% 
   summarise(`Number of High band countries` = n(),
@@ -62,6 +63,9 @@ write.csv(appendix_table1, glue("{dir}/data/output/appendix_tableC.1.csv"), row.
 # table 2: High band countries and their underlying variables
 appendix_table2 <- table_data %>%
   filter(bands == "High") %>%
+  mutate(continent = ifelse(continent == "Oceania", "Asia", continent),
+         continent = ifelse(continent == "North America", "Latin America", continent),
+         continent = ifelse(continent == "South America", "Latin America", continent)) %>%
   mutate(monitor_density = round(monitor_density, 2),
          population = round(population/1000000, 2)) %>%
   select(continent, country, population, pm2021, 

@@ -1,6 +1,5 @@
 "Continent","Number of High band countries","Number of countries without AQ standards","Number of countries without fully open data","Number of countries receiving less $100,000 funding","Population (in million)","PM2.5 level (in µg/m3)","Monitors","International Development Funding in USD million"
 "Africa",28,27,28,19,548.6,20.5,74,51.5
-"Asia",13,10,13,6,204.6,19.9,62,90.7
+"Asia",14,11,14,7,211.8,19.6,63,90.7
 "Europe",1,1,1,1,9.4,12.8,0,0
 "Latin America",7,5,7,7,108.1,17.7,75,0.1
-"Oceania",1,1,1,1,7.2,12.9,1,0

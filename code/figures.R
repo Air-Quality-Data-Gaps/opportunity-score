@@ -51,7 +51,7 @@ df1$region <- factor(df1$region,
 p1.1 <- df1 %>% ggplot(aes(x = group, y = value , fill = region)) +
   facet_wrap(~measure, strip.position = "bottom") +
   geom_bar(stat = 'identity', position = 'stack', width = 0.5, colour = "black") + 
-  labs(x = "", y = "", fill = "Region", title = "Health burden due to air pollution",
+  labs(x = "", y = "Percent", fill = "Region", title = "Health burden due to air pollution",
        caption = "Source: * Air Quality Life Index Annual Update, 2023")  +
   scale_fill_manual(values = c("Africa" = "#01497C", 
                                "Latin America" = "#6F98A2", 
@@ -64,6 +64,7 @@ p1.1 <- df1 %>% ggplot(aes(x = group, y = value , fill = region)) +
   theme(legend.position = "left",
         legend.background = element_rect(color = "black"),
         axis.text=element_text(size=13),
+        axis.title=element_text(size=14),
         legend.text = element_text(size = 14),
         legend.title = element_text(size = 15),
         plot.title = element_text(hjust = 0.5, size = 15),
@@ -116,7 +117,7 @@ df2$region <- factor(df2$region,
 p1.2 <- df2 %>% ggplot(aes(x = group, y = value , fill = region)) + 
   facet_wrap(~measure, strip.position = "bottom") +
   geom_bar(stat = 'identity', position = 'stack', width = 0.5, colour = "black") + 
-  labs(x = "", y = "", fill = "Region", title = "Resources deployed to address air pollution",
+  labs(x = "", y = "Percent", fill = "Region", title = "Resources deployed to address air pollution",
        caption = "Source: º OpenAQ. 2022. “Open Air Quality Data: The global landscape”, ^ Clean Air Fund. 2022. “The State of Global Air Quality Funding”") +                         # to even out the x axis
   scale_fill_manual(values = c("Africa" = "#01497C", 
                                "Latin America" = "#6F98A2", 
@@ -129,6 +130,7 @@ p1.2 <- df2 %>% ggplot(aes(x = group, y = value , fill = region)) +
   theme(legend.position = "none",
         legend.background = element_rect(color = "black"),
         axis.text=element_text(size=13),
+        axis.title=element_text(size=14),
         legend.text = element_text(size = 14),
         legend.title = element_text(size = 15),
         plot.title = element_text(hjust = 0.5, size = 15),

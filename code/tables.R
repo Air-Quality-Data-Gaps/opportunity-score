@@ -60,6 +60,8 @@ appendix_table1 <- table_data %>%
 
 write.csv(appendix_table1, glue("{dir}/data/output/appendix_tableB1.csv"), row.names=FALSE)
 
+
+#### (deprecated) ####
 # table 2: High band countries and their underlying variables
 appendix_table2 <- table_data %>%
   filter(bands == "High") %>%
@@ -86,7 +88,7 @@ appendix_table2 <- table_data %>%
 
 write.csv(appendix_table2, glue("{dir}/data/output/appendix_tableB2.csv"), row.names=FALSE)
 
-# (deprecated) section 1: less than $100,000 intl dev funding
+# section 1: less than $100,000 intl dev funding
 below_100k <- table_data %>% 
   filter(funding_dummy == 1) %>%
   select(continent, country, population, pm2021, `Funding in USD million`) %>%

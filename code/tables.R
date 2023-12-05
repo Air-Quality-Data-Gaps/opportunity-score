@@ -17,10 +17,10 @@ continent <- read_csv(glue("{dir}/data/input/country_continent.csv"))
 table_data <- opp_score %>%
   left_join(continent, by = c("country" = "country"))
 
-# section 3: continent table
+# section 2: continent table
 # Table1
 continent_table <- table_data %>% 
-  filter(bands == "High") %>%
+  filter(bands == "High", is.na(Income.classification)) %>% # remove high income countries from the High and Medium-high bands
   mutate(continent = ifelse(continent == "Oceania", "Asia", continent),
          continent = ifelse(continent == "North America", "Latin America", continent),
          continent = ifelse(continent == "South America", "Latin America", continent)) %>%
@@ -35,7 +35,7 @@ continent_table <- table_data %>%
             `International Development Funding in USD million` = round(sum(`Funding in USD million`, na.rm = TRUE), 1)) %>%
   rename(Continent = continent)
 
-write.csv(continent_table, glue("{dir}/data/output/main_text_table3.1.csv"), row.names=FALSE)
+write.csv(continent_table, glue("{dir}/data/output/table2.1.csv"), row.names=FALSE)
 
 # appendix
 # table 1: High and Medium-high band countries and their underlying variables
@@ -58,7 +58,7 @@ appendix_table1 <- table_data %>%
          `Opportunity Score` = opportunity_score) %>%
   arrange(desc(`Opportunity Score`), `Population (in million)`) 
 
-write.csv(appendix_table1, glue("{dir}/data/output/appendix_tableC.1.csv"), row.names=FALSE)
+write.csv(appendix_table1, glue("{dir}/data/output/appendix_tableB1.csv"), row.names=FALSE)
 
 # table 2: High band countries and their underlying variables
 appendix_table2 <- table_data %>%
@@ -84,7 +84,7 @@ appendix_table2 <- table_data %>%
          `Does the country have \nambient air quality standard?` = aq_standard) %>%
   arrange(Country, desc(`Population (in million)`))
 
-write.csv(appendix_table2, glue("{dir}/data/output/appendix_tableC.3.csv"), row.names=FALSE)
+write.csv(appendix_table2, glue("{dir}/data/output/appendix_tableB2.csv"), row.names=FALSE)
 
 # (deprecated) section 1: less than $100,000 intl dev funding
 below_100k <- table_data %>% 

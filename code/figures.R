@@ -144,7 +144,7 @@ p1.2 <- df2 %>% ggplot(aes(x = group, y = value , fill = region)) +
         strip.background = element_blank())
 
 fig1.1 <- ggarrange(p1.1, p1.2, nrow = 1, ncol = 2, widths = c(0.5, 0.61))
-ggsave(glue("{dir}/figures/health_burden_vs_resources.png"), height = 8, width = 16, fig1.1)
+ggsave(glue("{dir}/figures/figure1.1.png"), height = 8, width = 16, fig1.1)
 
 # registry responses map
 interviews <- c( "Argentina", "Bangladesh", "Bolivia", "Cameroon", "Chile", "Colombia",
@@ -160,7 +160,8 @@ registry_countries <- read_excel(glue("{dir}/data/input/unique_registry_response
   st_as_sf()
 
 registry_countries <- registry_countries %>% 
-  mutate(bands = ifelse(is.na(bands) , "Not calculated", bands),
+  mutate(bands = ifelse(Country == "Singapore", NA, bands), # Moving high income countries to not calculated
+         bands = ifelse(is.na(bands) , "Not calculated", bands),
          bands = ifelse(bands == "Medium" | bands == "Low", "Other", bands))
 
 registry_countries$bands <- factor(registry_countries$bands, 
@@ -193,14 +194,15 @@ registry_map <- ggplot() +
         legend.direction = "horizontal") +
   guides(fill = guide_legend(nrow = 1))
 
-ggsave(glue("{dir}/figures/map_registry_responses_interviews.png"), height = 13, width = 15, registry_map)
+ggsave(glue("{dir}/figures/figure3.1.png"), height = 13, width = 15, registry_map)
 
 # maps data
 maps_data <- opp_score %>%
   mutate(funding = ifelse(funding_dummy == 0, "Funding > $100,000", "Funding =< $100,000"),
          funding = replace(funding, Income.classification == "High Income", "No data or \nhigh income countries"),
-         non_govt_monitors = ifelse(is.na(other), "No non-governmental \nair quality monitors", "At least 1 non-governmental \nair quality monitor")) %>%
-   full_join(gadm0_aqli_2021, by = c("iso_alpha3" = "isoalp3")) %>%
+         non_govt_monitors = ifelse(is.na(other), "No non-governmental \nair quality monitors", "At least 1 non-governmental \nair quality monitor"),
+         bands = ifelse(country %in% c("Bahrain", "Saudi Arabia", "Kuwait", "Singapore", "Oman", "Qatar"), NA, bands)) %>% # removing high income countries from the High and Medium-high bands
+  full_join(gadm0_aqli_2021, by = c("iso_alpha3" = "isoalp3")) %>%
   select(-geometry, geometry) %>%
   replace_na(list(bands = "Not calculated", funding = "No data or \n high income countries", non_govt_monitors = "No data")) %>%
   st_as_sf()
@@ -213,6 +215,32 @@ maps_data$non_govt_monitors <- factor(maps_data$non_govt_monitors,
                                       levels=c("No non-governmental \nair quality monitors", 
                                                "At least 1 non-governmental \nair quality monitor", 
                                                "No data"))
+
+# High opportunity score map only
+high_med_bands_map <- ggplot() +
+  geom_sf(data = gadm0_aqli_2021, color = "black", fill = "darkgray", lwd = 0.05) +
+  geom_sf(data = maps_data %>% filter(bands == "High" | bands == "Medium-high"), 
+          mapping = aes(fill = bands), color = "black", lwd = 0.05) +
+  scale_fill_manual(values = c("High" = "#01497C",
+                               "Medium-high" = "#38718F")) +
+  ggthemes::theme_map() +
+  labs(fill = "Opportunity to fill air quality data gaps") + 
+  theme(plot.title = element_text(hjust = 0.5, size = 15), 
+        plot.background = element_rect(fill = "#ddeaf5"), # change background to white in the earlier version
+        plot.subtitle = element_text(hjust = 0.5, size = 7), 
+        plot.caption = element_text(hjust = 0.7, size = 9, face = "italic"), 
+        legend.position = "bottom", 
+        legend.justification = c(0.5, 3), 
+        legend.background = element_rect(color = "black"), 
+        legend.text = element_text(size = 14),
+        legend.title = element_text(size = 15), 
+        legend.box.margin = margin(b = 1, unit = "cm"),                 
+        legend.key = element_rect(color = "black"), 
+        legend.box.spacing = unit(0, "cm"), 
+        legend.direction = "horizontal") +
+  guides(fill = guide_legend(nrow = 1))
+
+ggsave(glue("{dir}/figures/figure2.2.png"), height = 13, width = 15, high_med_bands_map)
 
 # opportunity score map
 opp_score_map <- ggplot() +
@@ -240,33 +268,7 @@ opp_score_map <- ggplot() +
         legend.direction = "horizontal") +
   guides(fill = guide_legend(nrow = 1))
 
-ggsave(glue("{dir}/figures/map_opp_score.png"), height = 13, width = 15, opp_score_map)
-
-# High opportunity score map only
-high_med_bands_map <- ggplot() +
-  geom_sf(data = gadm0_aqli_2021, color = "black", fill = "darkgray", lwd = 0.05) +
-  geom_sf(data = maps_data %>% filter(bands == "High" | bands == "Medium-high"), 
-          mapping = aes(fill = bands), color = "black", lwd = 0.05) +
-  scale_fill_manual(values = c("High" = "#01497C",
-                               "Medium-high" = "#38718F")) +
-  ggthemes::theme_map() +
-  labs(fill = "Opportunity to fill air quality data gaps") + 
-  theme(plot.title = element_text(hjust = 0.5, size = 15), 
-        plot.background = element_rect(fill = "#ddeaf5"), # change background to white in the earlier version
-        plot.subtitle = element_text(hjust = 0.5, size = 7), 
-        plot.caption = element_text(hjust = 0.7, size = 9, face = "italic"), 
-        legend.position = "bottom", 
-        legend.justification = c(0.5, 3), 
-        legend.background = element_rect(color = "black"), 
-        legend.text = element_text(size = 14),
-        legend.title = element_text(size = 15), 
-        legend.box.margin = margin(b = 1, unit = "cm"),                 
-        legend.key = element_rect(color = "black"), 
-        legend.box.spacing = unit(0, "cm"), 
-        legend.direction = "horizontal") +
-  guides(fill = guide_legend(nrow = 1))
-
-ggsave(glue("{dir}/figures/map_high_med_band.png"), height = 13, width = 15, high_med_bands_map)
+ggsave(glue("{dir}/figures/figureA2.png"), height = 13, width = 15, opp_score_map)
 
 # international development funding map
 funding_map <- ggplot() +

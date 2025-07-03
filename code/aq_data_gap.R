@@ -38,7 +38,7 @@ open_data <- read_sheet("https://docs.google.com/spreadsheets/d/1m3KfNOGQNlBBGn-
          `Country / Dependency` = ifelse(`Country / Dependency` == "Türkiye (Turkey)", "Turkey", `Country / Dependency`))
 
 # air quality standards data
-naaqs <- read_sheet("https://docs.google.com/spreadsheets/d/1BMaCvcuK06D7KvupzwaC7queMTBECqD7ThB0mstq4Sw/edit#gid=1839504889", skip = 23) # first 23 rows are sources
+naaqs <- read_sheet("https://docs.google.com/spreadsheets/d/1BMaCvcuK06D7KvupzwaC7queMTBECqD7ThB0mstq4Sw/edit#gid=1839504889", skip = 24) # first 23 rows are sources
 
 # number of aq monitors by country (open_aq). Standardizing all names to AQLI data. govt and non govt sensor data received
 aq_monitors_by_sensor <- read_csv(glue("{dir}/input/no_of_monitors_govt_other.csv")) %>% 
@@ -151,11 +151,11 @@ opportunity_score <- aq_data %>% arrange(desc(pm2021)) %>%
                                   pop_qtile == 3 ~ 1.2,
                                   pop_qtile == 4 ~ 1.6,
                                   pop_qtile == 5 ~ 2),
-         mon_dens_quintile = case_when(monitor_dens_qtile == 1 ~ 0.2,
-                                       monitor_dens_qtile == 2 ~ 0.4,
+         mon_dens_quintile = case_when(monitor_dens_qtile == 1 ~ 1,
+                                       monitor_dens_qtile == 2 ~ 0.8,
                                        monitor_dens_qtile == 3 ~ 0.6,
-                                       monitor_dens_qtile == 4 ~ 0.8,
-                                       monitor_dens_qtile == 5 ~ 1)) %>%
+                                       monitor_dens_qtile == 4 ~ 0.4,
+                                       monitor_dens_qtile == 5 ~ 0.2)) %>%
   replace_na(list(open_data_dummy = 1, govt_dummy = 1, other_dummy = 1, 
                   funding_dummy = 1, mon_dens_quintile = 1, 
                   gbd_dummy = 0, registry = 0, num_loc_dummy = 2)) %>%
@@ -171,4 +171,4 @@ opportunity_score <- aq_data %>% arrange(desc(pm2021)) %>%
   arrange(desc(opportunity_score), population)
 
 # using write.csv to avoid floating point issues
-write.csv(opportunity_score, glue("{dir}/output/opportunity_score.csv"), row.names=FALSE)
+write.csv(opportunity_score, glue("{dir}/output/opportunity_score_corrected.csv"), row.names=FALSE)

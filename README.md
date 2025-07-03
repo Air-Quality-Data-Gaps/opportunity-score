@@ -124,7 +124,6 @@ limitations into account.
 ### Contributing to the Opportunity Score
 We are constantly updating the Opportunity Score, both in terms of its 
 construction and underlying available data. If you would like to point to new 
-data sources, call out errors, or give feedback, please visit the GitHub 
-Repository housing this project: 
-https://github.com/Air-Quality-Data-Gaps/opportunity-score.
+data sources, call out errors, or give feedback, please write to us at 
+datagaps@uchicago.edu.
 

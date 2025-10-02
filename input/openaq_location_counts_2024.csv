@@ -1,0 +1,125 @@
+name,dos,nondos,lcs
+Algeria,1,0,0
+Andorra,0,2,0
+Argentina,0,5,8
+Armenia,0,0,71
+Australia,0,127,35
+Austria,0,247,17
+Azerbaijan,1,0,0
+Bahrain,1,0,0
+Bangladesh,1,0,1
+Belgium,0,153,14
+Belize,1,0,0
+Bosnia and Herzegovina,2,28,1
+Brazil,1,7,2
+Bulgaria,0,33,79
+Cameroon,0,0,2
+Canada,253,0,79
+Chad,1,0,0
+Chile,0,136,6
+China,4,0,10
+Colombia,1,24,8
+Costa Rica,1,0,1
+Croatia,0,22,11
+Curaçao,1,0,0
+Cyprus,0,11,1
+Czech Republic,0,97,14
+Côte d'Ivoire,1,0,0
+Democratic Republic of the Congo,1,0,0
+Denmark,0,16,5
+Dhekelia,0,1,0
+Ecuador,0,0,2
+Egypt,1,0,0
+Estonia,0,8,0
+Ethiopia,2,0,0
+Finland,0,71,0
+France,0,630,21
+Germany,0,469,54
+Ghana,1,0,22
+Gibraltar,0,1,0
+Greece,0,45,5
+Guatemala,3,0,0
+Guinea,1,0,0
+Guyana,0,0,1
+Honduras,0,0,2
+Hong Kong,0,14,0
+Hungary,0,78,9
+Iceland,0,20,1
+India,5,293,4
+Indonesia,2,0,10
+Iraq,2,0,0
+Ireland,0,41,10
+Israel,0,0,3
+Italy,0,683,11
+Japan,0,1593,4
+Jersey,0,0,17
+Jordan,2,0,0
+Kazakhstan,2,0,41
+Kenya,1,0,3
+Kosovo,2,17,0
+Kuwait,1,0,0
+Kyrgyzstan,2,0,46
+Lao PDR,1,1,1
+Latvia,0,13,0
+Lithuania,0,17,2
+Luxembourg,0,13,0
+Madagascar,1,0,0
+Malaysia,1,0,2
+Maldives,0,0,1
+Mali,1,0,0
+Malta,0,8,1
+Mauritius,0,0,2
+Mexico,33,152,6
+Moldova,1,0,2
+Mongolia,1,0,0
+Montenegro,0,14,0
+Morocco,0,0,3
+Mozambique,2,0,0
+Myanmar,1,0,0
+Nepal,2,0,3
+Netherlands,0,78,32
+New Zealand,0,10,7
+Nigeria,2,0,2
+North Macedonia,0,27,0
+Norway,0,66,3
+Oman,0,2,0
+Pakistan,5,0,6
+Paraguay,1,0,0
+Peru,1,45,1
+Philippines,1,0,12
+Poland,0,230,11
+Portugal,0,70,5
+Puerto Rico,3,0,0
+Qatar,1,0,0
+Republic of Cabo Verde,0,0,4
+Republic of Korea,0,718,4
+Romania,0,310,12
+Rwanda,1,0,0
+Saint-Martin,0,1,0
+San Marino,0,1,0
+Saudi Arabia,2,0,2
+Senegal,0,0,2
+Serbia,0,88,3
+Singapore,5,0,3
+Slovakia,0,85,0
+Slovenia,0,41,3
+South Africa,0,149,27
+Spain,0,814,12
+Sri Lanka,2,0,1
+Sudan,0,0,1
+Sweden,0,159,6
+Switzerland,0,45,18
+Taiwan,0,83,3
+Tajikistan,2,0,3
+Thailand,1,194,203
+Trinidad and Tobago,0,7,0
+Turkey,0,0,10
+Turkmenistan,2,0,0
+Uganda,1,0,0
+Ukraine,0,0,3
+United Arab Emirates,0,17,4
+United Kingdom,0,261,114
+United States,0,1,1169
+Uzbekistan,1,0,0
+Vietnam,1,35,1
+Zambia,0,0,3

@@ -1,0 +1,11 @@
+Components of the Opportunity Score,Contribution to the score,Value 
+Annual Average PM2.5,Higher value means greater opportunity,1
+Population,Higher population means greater opportunity,1
+Air Quality Regulations (Ambient Annual PM2.5 Standards and/or Air Qulaity Policy),Lack of or outdated regulation means greater opportunity,1
+Existence of Government Operated Air Quality Monitoring,Lack of government monitoring means greater opportunity,1
+"Availability of Fully Open, Public Air Quality Data",Lack of data means greater opportunity,1
+Number of Home Grown Reference Grade Monitors,Lower number means greater opportunity,1
+Number of Home Grown Low Cost Sensors,Lower number means greater opportunity,1
+Density of Total Number of Air Quality Monitors,Lower density means greater opportunity,1
+Amount of International Donor Funds For Outdoor Air Quality,Lower funds means greater opportunity,1
+In-Country Interest for Local Monitoring,Higher interest means greater  opportunity,1

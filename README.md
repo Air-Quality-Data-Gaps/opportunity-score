@@ -1,129 +1,96 @@
 # opportunity-score
 ## Description
-This repository contains the code, input data and output data for the 
-opportunity score generated as a part of the Air Quality Data Gaps project.
-The repository is organised as follows:
+This repository contains the code and data for the Opportunity Score generated 
+as a part of the EPIC Air Quality Fund. For a detailed analysis and methodology 
+behind the Opportunity Score, please see <insert_document_link>. The repository 
+is organised as follows:
+
 ### Code
-The `code` folder contains the code to generate the opportunity index. 
+There are three codes used towards the Opportunity Score-
+  - `data_cleaning.R` is the code to clean the data.
+  - `opportunity_score.R` is used to generate the Opportunity Score and extract
+     analytical insights from it.
+  - `tables_and_figures.R` is used to generate the tables and figures from the 
+     score.
+     
 ### Data
-The `data` folder contians the inputs to and outputs of the `code/aq_data_gap.R`
-The `data/input` sub-folder contains the inputs to opportunity score. This 
-will keep getting updated as more data becomes available. The `data/output`
-sub-folder contains the output data i.e. opportunity_score.csv file. This
-file will keep getting updated as the input data changes
+The `input` folder contians the inputs to the opportunity score, used in 
+`data_cleaning.R` and `opportunity_score.R`. The `output` folder contains 
+the output data (opportunity_score.csv and tableB1.csv) and figures. The 
+`archive` folder contains the code, inputs and outputs of the 2023 Opportunity 
+Score. The corrected 2023 score can be found in 
+`archive/2023/data/output/opportunity_score_corrected.csv`
+
 ## Running the code
 To run the code:
-1. R version 4.3.1
-2. Create a new directory with `input` and `output` folders
-3. Update the `dir` variable in `aq_data_gap.R` to the this directory 
+  1. Use R version 4.4.3
+  2. Clone this repository
 
 ## About the Opportunity Score
-### How should this score be used -- and not used?
-The Opportunity Score is designed to estimate the highest countries with the 
-highest likelihood where a single or small, sustained effort to openly produce 
-PM2.5 data by a local actor could result in national-level clean air policy 
-impact. Typically, the countries with the highest Opportunity Scores are those 
-with a combination of: (a) annual average PM2.5 pollution levels above the 
-World Health Organization Annual Guideline for PM2.5, (b) little or no 
-government- or non-government-generated data, (c) little or no donor agency 
-and/or philanthropic foundation funding for outdoor air quality, and (d) little 
-or no evidence for existing national ambient air quality standards. 
+The Opportunity Score is designed identify locations with the highest 
+possibilities for supporting a single or small, multi-year PM2.5 monitoring 
+effort with the best chances to  catalyze national-level impacts. Typically, 
+the countries with the highest Opportunity Scores are those with a combination 
+of:
+  - high PM2.5 levels, 
+  - large populations, 
+  - high impact of PM2.5 pollution relative to other health risks in the country
+  - little or outdated air quality management or policy infrastructure, 
+  - few resources flowing into the country targeted at air pollution, and
+  - high interest from groups well-poised to conduct long-term air quality 
+    monitoring 
+  
+Although, the calculation prefers places with large populations and high 
+pollution levels, if all else is equal, it prioritizes places with a lack of air 
+quality infrastructure. This methodology leads to prioritizing places that have 
+not traditionally been high on the international air pollution community’s 
+priority list for funding.
 
-The Opportunity Score is a tool designed to describe where major PM2.5 data 
+Please see <insert_document_link> for a detailed analysis and methodology behind
+the Opportunity Score
+
+### How should this score be used - and not used?
+The Opportunity Score is  designed to describe where major PM2.5 data 
 infrastructure gaps exist, and where it would be most valuable to fill these 
 gaps. It can be used for strategic decision-making by philanthropies, 
 governments, development agencies, and other actors seeking to tangibly impact 
-global air quality data infrastructure.
-
-The Opportunity Score is not designed to dictate attention or funding strategy 
-for all types of outdoor air quality activities. For example, India or China 
-have lower “Opportunity Scores” because adding another monitoring effort to the 
-countries’ numerous other monitoring networks and other activities is not likely 
-to have a national level impact. Clearly, there remains a lot of other impactful 
-clean air work left to be done in both countries, as well as several other 
-lower Opportunity Score countries in this analysis. 
+global air quality data infrastructure. The Opportunity Score is not designed 
+to dictate attention or funding strategy for all types of outdoor air quality 
+activities.
 
 ### Methodology
-The Opportunity Score incorporates multiple factors to determine the largest 
-PM2.5 data-gap closing country-level opportunities, in terms of potential for 
-a single well-supported PM2.5 monitoring effort to have a national-level impact. 
+The current iteration of the Opportunity Score uses 14 country-level indicators
+detailed in the following table:
 
-The current iteration of the Opportunity Score uses 12 country-level indicator.
-detailed below:
+| **Indicator**                                                                                          | **Description**                                                                                                                                                                                                                                                                  | **Data Source**                                                                                                                              |
+|--------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------|
+| 1. Satellite-derived Annual Average PM2.5                                                              | Measure of level of threat posed by PM2.5 pollution. Higher value indicates bigger opportunity                                                                                                                                                                                   | Atmospheric Composition Analysis Group, University Washington in St. Louis / Air Quality Life Index                                      |
+| 2. Population                                                                                          | Measure of level of threat posed by PM2.5 pollution. Higher value indicates bigger opportunity                                                                                                                                                                                   | LandScan                                                                                                                                 |
+| 3. Ranking of cause/risk of death                                                                      | Measure of level of threat posed by PM2.5 pollution. If PM2.5 is in the top 10 risks/causes of death as depicted by loss in life expectancy, it indicates a bigger opportunity.                                                                                                  | Air Quality Life Index for PM2.5 and level-2 causes and risks data from Global Burden of Disease tool by IHME for all other risks/causes |
+| 4. Ambient air quality standards                                                                       | Measure of existence of regulatory framework for national-level ambient air quality. Absence of or lack of update to standards in the last ten years indicates bigger opportunity.                                                                                               | Air Quality Life Index compilation of several sources                                                                                    |
+| 5. Ambient air quality policy                                                                          | Measure of existence of regulatory framework for national-level ambient air quality. Absence of or lack of update to policy in the last ten years indicates bigger opportunity                                                                                                   | Air Quality Life Index compilation of several sources                                                                                    |
+| 6. Government operated/sponsored air quality monitoring                                                | Measure of air quality monitoring and data generation infrastructure in a country. Absence of government backed air quality infrastructure in a country indicates bigger opportunity.                                                                                            | OpenAQ report: Open Air Quality Data: The Global Landscape 2024                                                                          |
+| 7. Presence of publicly-accessible data generated by the government                                    | Measure of air quality monitoring and data generation infrastructure in a country. Absence of publicly accessible data indicates bigger opportunity.                                                                                                                             | OpenAQ report: Open Air Quality Data: The Global Landscape 2024                                                                          |
+| 8. Total number of air quality monitors                                                                | Measure of air quality monitoring and data generation infrastructure in a country. Lower value indicates bigger opportunity.                                                                                                                                                     | Sum of Indicators 10 and 11.                                                                                                             |
+| 9. Density of air quality monitors                                                                     | Measure of air quality monitoring and data generation infrastructure in a country. Defined as the number of monitors per million people. Lower value indicates   bigger opportunity.                                                                                             | Calculated as the ratio of indicators 2 and 8                                                                                            |
+| 10. Number of reference grade monitors                                                                 | Measure of air quality monitoring and data generation infrastructure in a country. Lower value indicates bigger opportunity.                                                                                                                                                     | OpenAQ: Note this source can provide a proxy but not an exact or official count of monitors available in a country.                      |
+| 11. Number of low cost sensors                                                                         | Measure of air quality monitoring and data generation infrastructure in a country. Lower value indicates bigger opportunity.                                                                                                                                                     | OpenAQ: Note this source can provide a proxy but not an exact or official count of monitors available in a country.                      |
+| 12. Amount of international development funding for outdoor air quality                                | Measure of availability of resources that target air pollution flowing into the country. Lower value of international development funds for air quality infrastructure development indicates bigger opportunity.                                                                 | Clean Air Fund report: The State of Global Air Quality Funding 2023, specifically Outdoor Air Quality Funding                            |
+| 13. Amount of philanthropic funds for outdoor air quality                                              | Measure of availability of resources that target air pollution flowing into the country. Lower value of philanthropic funds for air quality infrastructure development and number of projects supported in the region where the country is located indicates bigger opportunity. | Clean Air Fund report: Philanthropic Foundation Funding For Clean Air 2024, specifically Outdoor Air Quality Funding                     |
+| 14. Countries with responses to the EPIC Air Quality Fund’s 2023 registry and 2024 call for proposals  | Measure of tractability of executing clean air action in the country. Having a response from a country indicates greater opportunity.                                                                                                                                            | EPIC Air   Quality Fund Registry for Locally-led PM2.5 Data Collection                                                                   |
 
-| **Indicator**                                                                        | **Description**                                                                                                                                                                | **Weighting**                                                                                                                                           | **Data Source**                                                                                                          |
-|--------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------|
-| 1. Satellite-derived  Annual Average PM2.5                                           | Higher value indicates bigger  opportunity                                                                                                                                     | Quintile distribution  ranging from 0.4 to 2,  with 0.4 being the lowest  pollution quintile and 2  being the highest pollution  quintile.              | Atmospheric Composition  Analysis Group, University  Washington in St. Louis/ Air Quality Life Index                     |
-| 2. Population                                                                        | Higher value indicates bigger  opportunity                                                                                                                                     | Quintiles distribution  ranging from 0.4 to 2,  with 0.4 being the lowest  population quintile and 2  being the highest population  quintile.           | LandScan                                                                                                                 |
-| 3. Ambient air  quality standards                                                    | Measure of existence of legal  framework for national-level  ambient air quality standards.  Absence indicates bigger  opportunity.                                            | Binary distribution  with a value 1 if there  is no standard and is  zero otherwise                                                                     | Air Quality Life Index  compilation of several  sources                                                                  |
-| 4. Government  operated/sponsored air  quality monitoring                            | Measure of existence of  legal framework for air  quality. Absence indicates  bigger opportunity.                                                                              | Binary distribution  with a value 1 if there  is no evidence of government  operated/sponsored AQ  monitoring and is zero  otherwise                    | OpenAQ report:  Open Air Quality Data:  The Global Landscape 2022                                                        |
-| 5. Presence of  fully-open data  generated by the  government                        | Measure of government backed  air quality infrastructure in  a country. Absence indicates  bigger opportunity.                                                                 | Binary distribution  with a value 1 if a  country meets all four  criteria of open data as  defined by OpenAQ and is  zero otherwise                    | OpenAQ:  Note this source  can provide a proxy but  not an exact or official  count of monitors available  in a country. |
-| 6. Total number of  air quality monitors                                             | More monitors mean  more data is available  for measurements and  calibration. Lower value  indicates bigger opportunity.                                                      | Binary distribution  with a value 2 if the  number of government  monitors are below median  and is zero otherwise.                                     | Sum of Indicators 8 and 9.                                                                                               |
-| 7. Density of air  quality monitors                                                  | Measure of proliferation  of AQ monitors. Defined  as the number of monitors  per million people. Lower  value indicates bigger  opportunity.                                  | Quintiles of the ratio  ranging from 0.2 to 1,  with 0.2 being the highest  monitor density quintile  and 1 being the lowest  monitor density quintile. | Calculated as the ratio  of indicators 2 and 6                                                                           |
-| 8. Number of  government monitors                                                    | Measure of legal framework  for air quality. Lower value  indicates bigger opportunity.                                                                                        | Binary distribution  with a value 1 if the  number of government  monitors are below median  and is zero otherwise.                                     | OpenAQ: Note this source  can provide a proxy but  not an exact or official  count of monitors available  in a country.  |
-| 9. Number of  non-government  monitors                                               | Measure of public awareness  for air quality. Lower value  indicates bigger opportunity.                                                                                       | Binary distribution  with a value 1 if the  number of non-government  monitors is below  median and is zero otherwise.                                  | OpenAQ:  Note this source  can provide a proxy but  not an exact or official  count of monitors available  in a country. |
-| 10. Amount of  international development  funding for outdoor  air quality           | Available international  development funds for air  quality infrastructure  development. Lower value  indicates bigger opportunity.                                            | Binary distribution  with a value 1 if the  amount of international  development funding in a  country is less $100,000  and is zero otherwise.         | Clean Air Fund report:  The State of Global Air  Quality Funding 2023,  specifically Outdoor Air  Quality Funding        |
-| 11. Ranking of  cause/risk of death                                                  | Measure of the top ten  risks/causes of death as  depicted by loss in life  expectancy. If PM2.5 is in  the top 10 risks/causes of  death, it indicates a bigger  opportunity. | Binary distribution  with a value 1 if PM2.5  is among the top 10  risks/causes of death  for a country and is  zero otherwise                          | AQLI for PM2.5 and  Global Burden of Disease  tool by IHME for all  other risks/causes                                   |
-| 12. Countries with  responses to the AQ  Data Gaps registry  (as of 9 November 2023) | Measure of tractability in  case an opportunity to create  impact becomes available.  Having a response from a  country indicates greater  opportunity.                        | Binary distribution  with a value 1 if there  is a registry response  from the country and is  zero otherwise                                           | AQ Data Gaps Registry  for Locally-led PM2.5  Data Collection                                                            |
+The figure below explains the weighting scheme used for each indicator. 
+Following the scheme, the final Opportunity Score can range between 1 and 17. In 
+the current iteration, Opportunity Scores of countries range from 5.8 to 16.6 
+and are divided into four bands indicating the priority level as follows- 
+  - High: Opportunity Score >= 11.8
+  - Medium-high: 11.8 > Opportunity Score >= 10.2
+  - Medium: 10.2 > Opportunity Score >= 7.8 
+  - Low: Opportunity Score < 7.8
 
-For this analysis, we have removed countries with annual average PM2.5 levels at 
-or below the WHO Guideline of 5 µg/m3. We have also removed countries with very 
-small populations (< 800,000). As noted in Table A1, we have doubled the weight 
-of three key indicators: population, PM2.5 annual average concentration, and 
-total number of monitors. High income countries, as classified by the World Bank, 
-receive a value of zero for the international development funding indicator. 
-We have also removed six high income countries, as identified by the World Bank 
-from the High and Medium-High bands. Finally, we have also removed conflict 
-zones and countries sanctioned by the United States from the dataset, as these 
-locations may present logistical difficulties for funders to engage.
+![OppScore](https://github.com/Air-Quality-Data-Gaps/opportunity-score/blob/main/output/figures/opp_score_flowchart.png)
 
-In the future, we would like to expand the types of input indicators, perhaps 
-including other factors such as energy or electricity consumption at the country 
-level or philanthropic foundation funds flowing through the country, pending 
-global data availability. 
-
-![OppScore](https://github.com/Air-Quality-Data-Gaps/opportunity-score/blob/main/figures/figure_A1.png?raw=true)
-
-The final Opportunity Score is the sum total of the twelve indicators that can 
-range between 1 and 15. In the current iteration, the Opportunity Scores of 
-countries range from 2 to 13 and are divided into four bands indicating the 
-priority level as follows- 
-  - High: Opportunity Score >= 9.8
-  - Medium-high: 9.8 > Opportunity Score >= 8.2
-  - Medium: 8.2 > Opportunity Score >=  5 
-  - Low: Opportunity Score < 5
-
-  
-### What are some limitations of the Opportunity Score?
-  - For Indicators 8 and 9, the total number of government and non-government 
-  monitors, these values were obtained from OpenAQ. They should be viewed as 
-  the lower bound for these values, since all monitors may not report to OpenAQ.
-  The use of data from OpenAQ was the most optimal choice, given the absence of 
-  a universally recognized data source for global government or non-government 
-  monitors.
-  - The underlying data for Indicator 10 uses available country-level outdoor 
-  air pollution international donor data (See Footnote 18). If data were not 
-  available for a country, we have assumed there is zero international donor 
-  data. Additionally, some large regional international donor funding covering 
-  several countries was unable  to be deconvolved and assigned to individual 
-  country-level funding amounts. 
-  - Inclusion of a metric is not a reliable indication of the underlying 
-  quality or implementation of that metric. For example, just because a country 
-  has ambient air quality standards does not mean there is effective enforcement 
-  of those standards. 
-  - Indicator 12 relies on a public registry we have created of self-identified 
-  local actors who  have indicated that they are currently working on – or are 
-  well poised to work – on PM2.5 data gaps within their countries. This registry 
-  will not have captured all local actors in this space. One’s own knowledge of 
-  other local actors should be weighted with the Opportunity Scores presented 
-  here.
-  
-We suggest using the Opportunity Score as a guiding tool that takes these 
-limitations into account.
-
-### Contributing to the Opportunity Score
-We are constantly updating the Opportunity Score, both in terms of its 
-construction and underlying available data. If you would like to point to new 
-data sources, call out errors, or give feedback, please write to us at 
-datagaps@uchicago.edu.
+## Contributing to the Opportunity Score
+If you would like to point to new data sources, call out errors, or give 
+feedback, please write to us at datagaps@uchicago.edu.
 

@@ -49,6 +49,10 @@ priority list for funding.
 Please see <insert_document_link> for a detailed analysis and methodology behind
 the Opportunity Score
 
+To note, as with any effort to simplify a complex global challenge, this 
+Opportunity Score is necessarily imperfect — it cannot capture every nuance, but 
+we hope it provides a useful starting lens for philanthropic decision-making.
+
 ### How should this score be used - and not used?
 The Opportunity Score is  designed to describe where major PM2.5 data 
 infrastructure gaps exist, and where it would be most valuable to fill these 

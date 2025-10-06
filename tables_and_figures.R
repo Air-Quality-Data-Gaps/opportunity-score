@@ -17,36 +17,8 @@ table_data <- opp_score_2025 %>%
   left_join(continent, by = c("name" = "country"))
 
 ## regional distribution of opp score ------
-### high band only ------
-continent_table <- table_data %>% 
-  filter(bands_2 == "High") %>% 
-  mutate(Region = ifelse(continent == "Oceania" | continent == "Asia", "Asia and Oceania", NA),
-         Region = ifelse(continent == "North America" | continent == "South America", "Latin America and Carribean", Region),
-         Region = ifelse(continent == "Europe", "Europe", Region),
-         Region = ifelse(continent == "Africa", "Africa", Region)) %>%
-  group_by(Region) %>% 
-  summarise(`Number of High band countries` = n(),
-            `Number of countries without AQ standards` = sum(aq_standard=="N"),
-            `Number of countries without AQ policy` = sum(aq_policy=="N"),
-            `Number of countries without publicly accessible data` = sum(public_access=="N"),
-            `Number of countries receiving less $100,000 funding` = sum(intl_dev_fund_dummy==1),
-            `Population (in million)` = round(sum(population/1000000, na.rm = TRUE), 1),
-            `PM2.5 level (in µg/m3)` = round(weighted.mean(pm2023, population), 1),
-            `Monitors` = sum(total_monitors_wo_airnow, na.rm = TRUE),
-            `International Development Funding in USD million` = round(sum(`Funding in USD million`, na.rm = TRUE), 1))
-
-opp_score_2023 %>%
-  left_join(continent, by = c("country" = "country")) %>%
-  filter(bands == "High", is.na(Income.classification)) %>% 
-  mutate(Region = ifelse(continent == "Oceania" | continent == "Asia", "Asia and Oceania", NA),
-         Region = ifelse(continent == "North America" | continent == "South America", "Latin America and Carribean", Region),
-         Region = ifelse(continent == "Europe", "Europe", Region),
-         Region = ifelse(continent == "Africa", "Africa", Region)) %>%
-  group_by(Region) %>% 
-  summarise(`Number of High band countries` = n())
-
 ### high + medium-high bands ------
-continent_table2 <- table_data %>% 
+continent_table <- table_data %>% 
   filter(bands_2 %in% c("High", "Medium-high")) %>% 
   mutate(Region = ifelse(continent == "Oceania" | continent == "Asia", "Asia and Oceania", NA),
          Region = ifelse(continent == "North America" | continent == "South America", "Latin America and Carribean", Region),
@@ -108,7 +80,8 @@ table_B1 <- table_data %>%
   select(name, population, pm2023, `Funding in USD million`,
          `Committed budget`, `Number of projects`,
          ref_grd_wo_airnow, monitor_density_wo_airnow, public_access,  
-         aq_monitoring, aq_standard, aq_policy, opportunity_score_2, bands_2) %>%
+         # aq_monitoring, aq_standard, aq_policy, opportunity_score_2, bands_2) %>%
+         aq_monitoring, aq_standard, aq_policy, bands_2) %>%
   rename(Country = name, 
          `Population (in million)` = population, 
          `PM2.5 (in µg/m3)` = pm2023, 
@@ -121,9 +94,10 @@ table_B1 <- table_data %>%
          `Evidence of government \nsponsored/operated \nair quality monitoring` = aq_monitoring, 
          `Does the country have \nambient air quality standard?` = aq_standard, 
          `Does the country have \nambient air quality policy?` = aq_policy, 
-         `Opportunity Score` = opportunity_score_2,
+         # `Opportunity Score` = opportunity_score_2,
          `Opportunity Score Band` = bands_2) %>%
-  arrange(desc(`Opportunity Score`), `Population (in million)`) 
+  # arrange(desc(`Opportunity Score`), `Population (in million)`) 
+  arrange(`Opportunity Score Band`, Country)
 
 write_csv(table_B1, "output/tableB1.csv", na = "Data not available")
 

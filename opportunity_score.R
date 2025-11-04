@@ -96,30 +96,18 @@ opp_score <- aq_data %>%
                   aq_policy_dummy = 1)) %>%
   filter(`Income group` %notin% c("High income")) %>%
   rowwise() %>%
-  mutate(opportunity_score = sum(pm_quintile, pop_quintile,  gbd_dummy, 
-                                 aq_std_dummy, aq_policy_dummy, 
+  mutate(opportunity_score = sum(pm_quintile, pop_quintile,  gbd_dummy,
+                                 aq_std_dummy, aq_policy_dummy,  
                                  aq_mon_dummy, public_access_dummy, 
-                                 num_monitors_dummy, ref_grd_dummy, 
-                                 lcs_dummy, mon_dens_quintile, 
-                                 intl_dev_fund_dummy, phil_fund_quintile, 
-                                 cfp),
+                                 num_monitors_wo_airnow_dummy,
+                                 ref_grd_wo_airnow_dummy, lcs_dummy, 
+                                 mon_dens_wo_airnow_quintile, 
+                                 intl_dev_fund_dummy, phil_fund_quintile, cfp),
          bands = case_when(opportunity_score >= 11.8 ~ "High", 
                            opportunity_score < 11.8 & opportunity_score >= 10.2 ~ "Medium-high",
                            opportunity_score < 10.2 & opportunity_score >= 7.8 ~ "Medium",
-                           opportunity_score < 7.8 ~ "Low"),
-         opportunity_score_2 = sum(pm_quintile, pop_quintile,  gbd_dummy, 
-                                   aq_std_dummy, aq_policy_dummy,
-                                   aq_mon_dummy, public_access_dummy, 
-                                   num_monitors_wo_airnow_dummy,
-                                   ref_grd_wo_airnow_dummy, lcs_dummy, 
-                                   mon_dens_wo_airnow_quintile, 
-                                   intl_dev_fund_dummy, phil_fund_quintile, 
-                                   cfp),
-         bands_2 = case_when(opportunity_score_2 >= 11.8 ~ "High", 
-                             opportunity_score_2 < 11.8 & opportunity_score_2 >= 10.2 ~ "Medium-high",
-                             opportunity_score_2 < 10.2 & opportunity_score_2 >= 7.8 ~ "Medium",
-                             opportunity_score_2 < 7.8 ~ "Low")) %>%
-  arrange(desc(opportunity_score_2), desc(population))
+                           opportunity_score < 7.8 ~ "Low")) %>%
+  arrange(desc(opportunity_score), desc(population))
 
 # output csv file
 opp_score %>%
@@ -131,7 +119,6 @@ opp_score %>%
          `Income group`, gbd_dummy, cfp, phil_fund_quintile, intl_dev_fund_dummy,
          pm_quintile, pop_quintile, aq_std_dummy, aq_policy_dummy, aq_mon_dummy, 
          public_access_dummy, num_monitors_dummy, num_monitors_wo_airnow_dummy,
-         ref_grd_dummy, ref_grd_wo_airnow_dummy, lcs_dummy, 
-         mon_dens_quintile, mon_dens_wo_airnow_quintile,
-         opportunity_score, bands, opportunity_score_2, bands_2) %>%
+         ref_grd_dummy, ref_grd_wo_airnow_dummy, lcs_dummy, mon_dens_quintile, 
+         mon_dens_wo_airnow_quintile, opportunity_score, bands) %>%
   write_csv("output/opportunity_score.csv")

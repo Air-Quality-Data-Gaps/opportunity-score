@@ -19,7 +19,7 @@ table_data <- opp_score_2025 %>%
 ## regional distribution of opp score ------
 ### high + medium-high bands ------
 continent_table <- table_data %>% 
-  filter(bands_2 %in% c("High", "Medium-high")) %>% 
+  filter(bands %in% c("High", "Medium-high")) %>% 
   mutate(Region = ifelse(continent == "Oceania" | continent == "Asia", "Asia and Oceania", NA),
          Region = ifelse(continent == "North America" | continent == "South America", "Latin America and Carribean", Region),
          Region = ifelse(continent == "Europe", "Europe", Region),
@@ -46,7 +46,7 @@ opp_score_2023 %>%
   summarise(`Number of High band countries` = n())
 
 table_data %>%
-  filter(bands_2 %in% c("High", "Medium-high")) %>% 
+  filter(bands %in% c("High", "Medium-high")) %>% 
   filter(intl_dev_fund_dummy==1) %>%
   summarise(fund = sum(`Funding in USD million`, na.rm = TRUE))
 
@@ -60,9 +60,9 @@ rank_2025 <- opp_score_2025 %>%
 high_opp_superset <- inner_join(opp_score_2025 %>%
                                   mutate(`rank in 2025` = row_number()) %>%
                                   filter(name %in% unlist(rank_2025)) %>%
-                                  select(name, opportunity_score_2, `rank in 2025`) %>%
+                                  select(name, opportunity_score, `rank in 2025`) %>%
                                   rename("country" = "name",
-                                         "opp score 2025" = "opportunity_score_2"),
+                                         "opp score 2025" = "opportunity_score"),
                                 opp_score_2023 %>%
                                   mutate(`rank in 2023` = row_number()) %>%
                                   filter(country %in% unlist(rank_2025)) %>%
@@ -72,7 +72,7 @@ high_opp_superset <- inner_join(opp_score_2025 %>%
 
 ## appendix B: table of high and medium-high opportunity countries ------
 table_B1 <- table_data %>%
-  filter(bands_2 == "High" | bands_2 == "Medium-high") %>%
+  filter(bands == "High" | bands == "Medium-high") %>%
   mutate(monitor_density_wo_airnow = round(monitor_density_wo_airnow, 2),
          population = round(population/1000000, 2),
          `Committed budget` = round(`Committed budget`/1000000, 2),
@@ -80,8 +80,8 @@ table_B1 <- table_data %>%
   select(name, population, pm2023, `Funding in USD million`,
          `Committed budget`, `Number of projects`,
          ref_grd_wo_airnow, monitor_density_wo_airnow, public_access,  
-         # aq_monitoring, aq_standard, aq_policy, opportunity_score_2, bands_2) %>%
-         aq_monitoring, aq_standard, aq_policy, bands_2) %>%
+         # aq_monitoring, aq_standard, aq_policy, opportunity_score, bands) %>%
+         aq_monitoring, aq_standard, aq_policy, bands) %>%
   rename(Country = name, 
          `Population (in million)` = population, 
          `PM2.5 (in µg/m3)` = pm2023, 
@@ -94,8 +94,8 @@ table_B1 <- table_data %>%
          `Evidence of government \nsponsored/operated \nair quality monitoring` = aq_monitoring, 
          `Does the country have \nambient air quality standard?` = aq_standard, 
          `Does the country have \nambient air quality policy?` = aq_policy, 
-         # `Opportunity Score` = opportunity_score_2,
-         `Opportunity Score Band` = bands_2) %>%
+         # `Opportunity Score` = opportunity_score,
+         `Opportunity Score Band` = bands) %>%
   # arrange(desc(`Opportunity Score`), `Population (in million)`) 
   arrange(`Opportunity Score Band`, Country)
 
@@ -173,9 +173,9 @@ gadm0_aqli_shp <- st_read("~/Desktop/AQLI/shapefiles/global/gadm0/aqli_gadm0_fin
 maps_data <- opp_score_2025 %>%
   right_join(gadm0_aqli_shp, by = c("name" = "name0")) %>%
   select(-geometry, geometry) %>%
-  mutate(plot_bands = factor(ifelse(bands_2 %in% c("Medium", "Low") | is.na(bands_2), "Lower", bands_2),
+  mutate(plot_bands = factor(ifelse(bands %in% c("Medium", "Low") | is.na(bands), "Lower", bands),
                           levels = c("High", "Medium-high", "Lower")),
-         bands_2 = factor(ifelse(is.na(bands_2), "Not calculated", bands_2),
+         bands = factor(ifelse(is.na(bands), "Not calculated", bands),
                           levels = c("High", "Medium-high", "Medium", "Low", "Not calculated"))) %>%
   st_as_sf()
 
@@ -211,7 +211,7 @@ high_med_bands_map_2.2 <- ggplot() +
   geom_sf(data = gadm0_aqli_shp, color = "black", fill = "darkgray", lwd = 0.05) +
   geom_sf(data = maps_data, 
           mapping = aes(fill = plot_bands), color = "black", lwd = 0.05) +
-  geom_sf(data = maps_data %>% filter(bands_2 == "High" | bands_2 == "Medium-high", ref_grd_all == ref_airnow), 
+  geom_sf(data = maps_data %>% filter(bands == "High" | bands == "Medium-high", ref_grd_all == ref_airnow), 
           fill = "transparent", color = "#fed976", lwd = 0.5) +
   scale_fill_manual(values = c("High" = "#01497C",
                                "Medium-high" = "#38718F",
@@ -238,7 +238,7 @@ ggsave("output/figures/figure2.2.png", height = 10, width = 15, high_med_bands_m
 ## fig A2: opportunity score map ------
 opp_score_map <- ggplot() +
   geom_sf(data = gadm0_aqli_shp, color = "black", fill = "white", lwd = 0.05) +
-  geom_sf(data = maps_data, mapping = aes(fill = bands_2), color = "black", lwd = 0.05) +
+  geom_sf(data = maps_data, mapping = aes(fill = bands), color = "black", lwd = 0.05) +
   scale_fill_manual(values = c("High" = "#01497C",
                                "Medium-high" = "#38718F", 
                                "Medium"= "#A6C0B4", 

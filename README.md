@@ -46,8 +46,8 @@ quality infrastructure. This methodology leads to prioritizing places that have
 not traditionally been high on the international air pollution community’s 
 priority list for funding.
 
-Please see <insert_document_link> for a detailed analysis and methodology behind
-the Opportunity Score
+Please see [this detailed document](https://docs.google.com/document/d/1dJpmmewriM2QmrtJyxLRoo3o5za7UUapndjPc3wIkLI/edit?usp=sharing)
+for the underlying analysis and methodology behind the Opportunity Score
 
 To note, as with any effort to simplify a complex global challenge, this 
 Opportunity Score is necessarily imperfect — it cannot capture every nuance, but 

@@ -8,7 +8,7 @@ library(sf)
 `%notin%` <- Negate(`%in%`)
 
 # Data ------
-opp_score_2025 <- read_csv("output/opp_score_wo_state_dept.csv")
+opp_score_2025 <- read_csv("output/opportunity_score.csv")
 opp_score_2023 <- read_csv("archive/2023/data/output/opportunity_score_corrected.csv")
 continent <- read_csv("input/country_continent.csv")
 
@@ -145,7 +145,7 @@ investment_by_threat_plot <- ggplot(investment_by_threat %>%
 ggsave("output/figures/investment_by_threat.png", height = 5.25, width = 9.25, investment_by_threat_plot)
 
 # components of the opportunity score ------
-opp_score_components <- read_csv("input/donut chart data.csv")
+opp_score_components <- read_csv("input/donut_chart_data.csv")
 # hole size
 hsize <- 3
 opp_score_components <- opp_score_components %>%
